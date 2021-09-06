@@ -12,7 +12,7 @@ const upkeepVals = {
 //!Returns an array of user objects
 function getAllUserTama (SERVER) {
   //TODO: Eventually change to a suitable URL that's not local
-  return fetch(`${SERVER}/api/usertama`)
+  return fetch(`${SERVER}api/usertama`)
     .then(res => res.json())
 };
 
@@ -40,8 +40,8 @@ async function userTamaUpdate (userTamaArr, SERVER) {
   })
   Promise.all(newUserTamaArr.map(tama => { //Promise.all will ensure each fetch route is complete before moving on
     //TODO: Eventually change to a suitable URL that's not local
-    console.log(`${SERVER}/api/usertama/unique/${tama.id}`)
-    fetch(`${SERVER}/api/usertama/unique/${tama.id}`, {
+    console.log(`${SERVER}api/usertama/unique/${tama.id}`)
+    fetch(`${SERVER}api/usertama/unique/${tama.id}`, {
       method: "PUT",
       body: JSON.stringify(tama),
       headers: { 'Content-Type': 'application/json' }
