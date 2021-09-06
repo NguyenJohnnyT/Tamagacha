@@ -11,6 +11,10 @@ const { getAllUserTama, createUserTamaArr, userTamaUpdate } = require('./utils/p
 const app = express();
 const PORT = process.env.PORT || 3005;
 
+const dev = process.env.NODE_ENV !== 'production'
+export const SERVER = dev ? `http://localhost:${PORT}` : 'https://hidden-basin-34192.herokuapp.com/'
+
+const SERVER = 
 // -- cron -- \\
 //!Tweak schedule based on game balance
 cron.schedule('0,05,10,15,20,25,30,35,40,45,50,55 * * * * *', () => {

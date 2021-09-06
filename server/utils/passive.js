@@ -1,4 +1,5 @@
 const fetch = require("node-fetch")
+import { SERVER } from '../server'
 
 //!Tweak with numbers for gameplay balance.  These numbers are used to subtract from upkeep
 const upkeepVals = {
@@ -11,7 +12,7 @@ const upkeepVals = {
 //!Returns an array of user objects
 function getAllUserTama () {
   //TODO: Eventually change to a suitable URL that's not local
-  return fetch(`/api/usertama`)
+  return fetch(`${SERVER}/api/usertama`)
     .then(res => res.json())
 }
 
@@ -39,8 +40,8 @@ async function userTamaUpdate (userTamaArr, PORT) {
   })
   Promise.all(newUserTamaArr.map(tama => { //Promise.all will ensure each fetch route is complete before moving on
     //TODO: Eventually change to a suitable URL that's not local
-    console.log(`/api/usertama/unique/${tama.id}`)
-    fetch(`/api/usertama/unique/${tama.id}`, {
+    console.log(`${SERVER}/api/usertama/unique/${tama.id}`)
+    fetch(`${SERVER}/api/usertama/unique/${tama.id}`, {
       method: "PUT",
       body: JSON.stringify(tama),
       headers: { 'Content-Type': 'application/json' }
