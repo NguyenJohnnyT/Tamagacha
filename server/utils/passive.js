@@ -1,5 +1,5 @@
-const fetch = require("node-fetch")
-import { SERVER } from '../server'
+const fetch = require("node-fetch");
+const { SERVER } = require('../server');
 
 //!Tweak with numbers for gameplay balance.  These numbers are used to subtract from upkeep
 const upkeepVals = {
@@ -7,14 +7,14 @@ const upkeepVals = {
   bladder: 1,
   happiness: 20,
   status: 1
-}
+};
 
 //!Returns an array of user objects
 function getAllUserTama () {
   //TODO: Eventually change to a suitable URL that's not local
   return fetch(`${SERVER}/api/usertama`)
     .then(res => res.json())
-}
+};
 
 //!Returns an array of userTama objects
 function createUserTamaArr (data) {
@@ -28,7 +28,7 @@ function createUserTamaArr (data) {
   })
   // console.log(newArr);
   return newArr
-}
+};
 
 //! Update the database
 async function userTamaUpdate (userTamaArr, PORT) {
@@ -49,7 +49,7 @@ async function userTamaUpdate (userTamaArr, PORT) {
     .then(console.log(`Usertama ${tama.id} updated`))
   }))
   .then(console.log('All finished'))
-}
+};
 
 
 //change stats
@@ -88,15 +88,15 @@ function userTamaUpkeep (userTama) {
   } else if (happiness <= -10) {
     happiness = 0
     status -= upkeepVals.status*2
-  }
+  };
 
   //! Check status
   if (status <= 0) {
     is_alive = false
-  }
+  };
 
-  date_modified = new Date()
-  newAge = (Date.parse(date_modified) - Date.parse(date_created))/1000 //! age in seconds
+  date_modified = new Date();
+  newAge = (Date.parse(date_modified) - Date.parse(date_created))/1000; //! age in seconds
   // console.log('newAge', newAge)
 
   //! Createa new object with updated values
@@ -109,7 +109,7 @@ function userTamaUpkeep (userTama) {
     date_modified: date_modified,
     is_alive: is_alive,
     status: status
-  }
+  };
 
   // console.log('userTama after change', newUserTama)
   return newUserTama
