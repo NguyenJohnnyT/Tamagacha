@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const { SERVER } = require('../server');
+// const { SERVER } = require('../server');
 
 //!Tweak with numbers for gameplay balance.  These numbers are used to subtract from upkeep
 const upkeepVals = {
@@ -10,7 +10,7 @@ const upkeepVals = {
 };
 
 //!Returns an array of user objects
-function getAllUserTama () {
+function getAllUserTama (SERVER) {
   //TODO: Eventually change to a suitable URL that's not local
   return fetch(`${SERVER}/api/usertama`)
     .then(res => res.json())
@@ -31,7 +31,7 @@ function createUserTamaArr (data) {
 };
 
 //! Update the database
-async function userTamaUpdate (userTamaArr, PORT) {
+async function userTamaUpdate (userTamaArr, SERVER) {
   let newUserTamaArr = []; //Will contain updated userTama stats
   userTamaArr.forEach((userTama) => {
     //! Apply upkeep values for each userTama, then PUT to db
