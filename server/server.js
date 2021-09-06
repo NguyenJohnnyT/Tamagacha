@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3005;
 
 const dev = process.env.NODE_ENV !== 'production'
-const SERVER = dev ? `http://localhost:${PORT}` : 'https://hidden-basin-34192.herokuapp.com/'
+const SERVER = dev ? `http://localhost:${PORT}` : 'https://hidden-basin-34192.herokuapp.com'
 
 // -- cron -- \\
 //!Tweak schedule based on game balance
