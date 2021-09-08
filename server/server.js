@@ -11,8 +11,9 @@ const { getAllUserTama, createUserTamaArr, userTamaUpdate } = require('./utils/p
 const app = express();
 const PORT = process.env.PORT || 3005;
 
+// -- check if production and hand URL to passive.js -- \\
 const dev = process.env.NODE_ENV !== 'production'
-const SERVER = dev ? `http://localhost:${PORT}` : 'https://hidden-basin-34192.herokuapp.com'
+const SERVER = dev ? `http://localhost:${PORT}` : 'https://tamagacha.herokuapp.com'
 
 // -- cron -- \\
 //!Tweak schedule based on game balance
