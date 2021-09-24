@@ -1,32 +1,6 @@
 const fetch = require("node-fetch");
-
-//!Tweak with numbers for gameplay balance.  These numbers are used to subtract from upkeep
-const upkeepVals = {
-  hunger: 1,
-  bladder: 1,
-  happiness: 20,
-  status: 1
-};
-
-//!Returns an array of user objects
-function getAllUserTama (SERVER) {
-  return fetch(`${SERVER}/api/usertama`)
-    .then(res => res.json())
-};
-
-//!Returns an array of userTama objects
-function createUserTamaArr (data) {
-  let newArr = []
-  data.forEach((user) => {
-    user.tamas_owned.forEach((tama) => {
-      if (tama.userTama.is_alive) { //checks if tama is alive
-        newArr.push(tama.userTama)
-      }
-    })
-  })
-  // console.log(newArr);
-  return newArr
-};
+const { upkeepVals } = require('./upkeep_schedule');
+const { getAllUserTama, createUserTamaArr } = require('./UserTamaArrFunctions')
 
 //! Update the database
 async function userTamaUpdate (userTamaArr, SERVER) {

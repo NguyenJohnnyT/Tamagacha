@@ -4,9 +4,10 @@ const session = require('express-session');
 const routes = require('./controllers');
 require('dotenv').config();
 const sequelize = require('./config/connection');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const cron = require('node-cron');
-const { getAllUserTama, createUserTamaArr, userTamaUpdate } = require('./utils/passive')
+
+const { getAllUserTama, createUserTamaArr, userTamaUpdate } = require('./utils/passive');
+const { schedule } = require('./utils/upkeep_schedule');
 
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -17,7 +18,7 @@ const SERVER = dev ? `http://localhost:${PORT}` : 'https://tamagacha.herokuapp.c
 
 // -- cron -- \\
 //!Tweak schedule based on game balance
-cron.schedule('*/10 * * * * *', () => {
+cron.schedule(schedule, () => {
     getAllUserTama(SERVER)
     .then((data) => {
         userTamaUpdate(createUserTamaArr(data), SERVER)
@@ -28,13 +29,15 @@ cron.schedule('*/10 * * * * *', () => {
 // app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(routes); 
 
-app.get('*', (req, res) => {
-    const buildPath = path.join(__dirname, 'build', 'index.html');
-    res.sendFile(buildPath);
-  });
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
+}
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => console.log(`Now listening on ${PORT}`));
